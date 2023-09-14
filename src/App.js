@@ -1,23 +1,35 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
+import PlayerInfoContainer from './containers/PlayerInfoContainer';
+import HouseContainer from './containers/HouseContainer';
+import AgeInputBox from './components/AgeInputBox'; // Import AgeInputBox
+
 
 function App() {
+  const [showPlayerName, setShowPlayerName] = useState(false);
+  const [playerName, setPlayerName] = useState('');
+  const [playerAge, setPlayerAge] = useState(0);
+
+  const handlePlayerNameChange = (name) => {
+    setPlayerName(name);
+    setShowPlayerName(true);
+  }
+
+  const handlePlayerAgeChange = (age) => {
+    setPlayerAge(age);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {!showPlayerName && (
+        <PlayerInfoContainer onNameChange={handlePlayerNameChange} />
+      )}
+      {showPlayerName && !playerAge && (
+        <AgeInputBox playerName={playerName} onAgeChange={handlePlayerAgeChange} />
+      )}
+      {showPlayerName && playerAge > 0 && (
+        <HouseContainer playerName={playerName} playerAge={playerAge} />
+      )}
     </div>
   );
 }
